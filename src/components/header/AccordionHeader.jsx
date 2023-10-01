@@ -5,12 +5,15 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Button, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function AccordionHeader(props) {
-  const { name, icon } = props;
+  const {
+    name, icon, lessonPath, homeworkPath,
+  } = props;
   return (
     <div style={{ width: '100%' }}>
       <Accordion sx={{ boxShadow: 'none', backgroundColor: 'transparent' }}>
@@ -34,23 +37,36 @@ function AccordionHeader(props) {
           <Typography>{name}</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: 0 }}>
-          <Stack direction="column">
-            <Button
-              startIcon={<KeyboardDoubleArrowRightIcon />}
-              variant="text"
-              sx={{ justifyContent: 'flex-start', paddingLeft: 0 }}
-              color="inherit"
+          <Stack direction="column" spacing={2}>
+            <Link
+              to={lessonPath}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '10px',
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
             >
+              <KeyboardDoubleArrowRightIcon />
               Lessons
-            </Button>
-            <Button
-              startIcon={<KeyboardDoubleArrowRightIcon />}
-              variant="text"
-              sx={{ justifyContent: 'flex-start', paddingLeft: 0 }}
-              color="inherit"
+            </Link>
+            <Link
+              to={homeworkPath}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '10px',
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
             >
+              <KeyboardDoubleArrowRightIcon />
               Homework
-            </Button>
+            </Link>
+
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -62,5 +78,7 @@ function AccordionHeader(props) {
 AccordionHeader.propTypes = {
   name: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
+  lessonPath: PropTypes.string.isRequired,
+  homeworkPath: PropTypes.string.isRequired,
 };
 export default AccordionHeader;

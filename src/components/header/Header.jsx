@@ -19,6 +19,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import DataObjectIcon from '@mui/icons-material/DataObject';
 import CodeIcon from '@mui/icons-material/Code';
 import ArticleIcon from '@mui/icons-material/Article';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import AccordionHeader from './AccordionHeader';
 
 const drawerWidth = 240;
@@ -89,7 +91,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-function Header() {
+function Header(props) {
+  const { children } = props;
   const [open, setOpen] = React.useState(true);
   const [openMobile, setOpenMobile] = React.useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -149,7 +152,18 @@ function Header() {
               >
                 <HomeIcon />
               </ListItemIcon>
-              <ListItemText sx={{ opacity: open || openMobile ? 1 : 0 }}>Dashboard</ListItemText>
+              <ListItemText sx={{ opacity: open || openMobile ? 1 : 0 }}>
+                <Link
+                  to="/"
+                  style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    display: 'block',
+                  }}
+                >
+                  Dashboard
+                </Link>
+              </ListItemText>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
@@ -160,7 +174,7 @@ function Header() {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="JS Course" icon={<CodeIcon />} />
+              <AccordionHeader name="JS Course" icon={<CodeIcon />} lessonPath="/lessons-js" homeworkPath="/homework-js" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
@@ -171,7 +185,7 @@ function Header() {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="React Course" icon={<DataObjectIcon />} />
+              <AccordionHeader name="React Course" icon={<DataObjectIcon />} lessonPath="/lessons-react" homeworkPath="/homework-react" />
             </ListItemButton>
           </ListItem>
         </List>
@@ -195,7 +209,18 @@ function Header() {
                 >
                   <ArticleIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open || openMobile ? 1 : 0 }} />
+                <ListItemText sx={{ opacity: open || openMobile ? 1 : 0 }}>
+                  <Link
+                    to="/technical-articles"
+                    style={{
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      display: 'block',
+                    }}
+                  >
+                    {text}
+                  </Link>
+                </ListItemText>
               </ListItemButton>
             </ListItem>
           ))}
@@ -203,12 +228,17 @@ function Header() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>
-          Page
-        </Typography>
+        {children}
       </Box>
     </Box>
   );
 }
+
+Header.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
 
 export default Header;
