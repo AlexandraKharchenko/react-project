@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Stack } from '@mui/material';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { IoArrowForwardOutline } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -49,7 +49,7 @@ function AccordionHeader(props) {
                 color: 'inherit',
               }}
             >
-              <KeyboardDoubleArrowRightIcon />
+              <IoArrowForwardOutline fontSize={15} />
               Lessons
             </Link>
             <Link
@@ -63,7 +63,7 @@ function AccordionHeader(props) {
                 color: 'inherit',
               }}
             >
-              <KeyboardDoubleArrowRightIcon />
+              <IoArrowForwardOutline fontSize={15} />
               Homework
             </Link>
 
