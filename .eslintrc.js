@@ -21,5 +21,7 @@ module.exports = {
     'react/no-unescaped-entities': 0,
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'max-len': 'off',
+    'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
   },
 };
