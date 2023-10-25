@@ -11,7 +11,8 @@ import Header from '../components/header/Header';
 function Lessons() {
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const paramValue = pathParts[2];
+  const paramValue = pathParts[4];
+  const userId = pathParts[2];
 
   const { data: coursesData, isLoading: coursesIsDataLoading } = useGetCoursesQuery();
   // eslint-disable-next-line max-len
@@ -123,7 +124,7 @@ function Lessons() {
                 >
                   <Button variant="contained" color="secondary" endIcon={<IoArrowForwardOutline />}>
                     <Link
-                      to={`/courses/${paramValue}/lessons/${lesson.id}`}
+                      to={`/users/${userId}/courses/${paramValue}/lessons/${lesson.id}`}
                       style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                       To lesson

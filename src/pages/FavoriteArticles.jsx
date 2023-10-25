@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { Button, CircularProgress } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   IoArrowForwardOutline, IoBookmarksOutline, IoBookOutline,
 } from 'react-icons/io5';
@@ -15,9 +15,13 @@ function FavoriteArticles() {
   const { data: articleData, isLoading } = useGetArticlesQuery();
   const { data: categoryData, isLoading: categoryIsLoading } = useGetArticleCategoryQuery();
   const [createFavorite] = useCreateFavoriteArticleMutation();
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
+  const userId = pathParts[2];
 
   const handleFavorite = async (id, favorite) => {
     const requestData = await createFavorite({ id, favorite: !favorite }).unwrap();
+
     console.log(requestData);
   };
 
@@ -149,7 +153,7 @@ function FavoriteArticles() {
                     </Button>
                     <Button variant="outlined" color="secondary" endIcon={<IoArrowForwardOutline />}>
                       <Link
-                        to={`/technical-articles/article/${article.id}`}
+                        to={`/users/${userId}/technical-articles/article/${article.id}`}
                         style={{ textDecoration: 'none', color: 'inherit' }}
                       >
                         Read
@@ -187,7 +191,7 @@ function FavoriteArticles() {
             }
             return (
               <Link
-                to={`/technical-articles/${item.name}`}
+                to={`/users/${userId}/technical-articles/${item.name}`}
                 style={{
                   textDecoration: 'none',
                   color: '#b66dff',
@@ -200,7 +204,7 @@ function FavoriteArticles() {
           })}
           <div style={{ borderTop: '1px solid #ebedf2', margin: '10px 0' }} />
           <Link
-            to="/technical-articles"
+            to={`/users/${userId}/technical-articles`}
             style={{
               textDecoration: 'none',
               color: '#b66dff',
@@ -213,7 +217,7 @@ function FavoriteArticles() {
             All articles
           </Link>
           <Link
-            to="/technical-articles/favorite-articles"
+            to={`/users/${userId}/technical-articles/favorite-articles`}
             style={{
               textDecoration: 'none',
               color: '#b66dff',

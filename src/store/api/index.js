@@ -22,7 +22,6 @@ export const usersApi = createApi({
       query: () => 'categories/',
     }),
     createFavoriteArticle: build.mutation({
-
       query: ({ id, favorite }) => ({
         url: `articles/${id}/`,
         method: 'PUT',
@@ -38,6 +37,9 @@ export const usersApi = createApi({
     getLessons: build.query({
       query: (courseId) => `courses/${courseId}/lessons/`,
     }),
+    getHomeworkItem: build.query({
+      query: ({ courseId, lessonId, homeworkId }) => `courses/${courseId}/lessons/${lessonId}/homeworks/${homeworkId}`,
+    }),
     getLessonItem: build.query({
       query: ({ courseId, lessonId }) => `courses/${courseId}/lessons/${lessonId}`,
     }),
@@ -51,5 +53,6 @@ export const usersApi = createApi({
 });
 
 export const {
-  useGetUsersQuery, useGetArticlesQuery, useGetCoursesQuery, useGetLessonsQuery, useGetLessonItemQuery, useGetMaterialsQuery, useGetHomeworksQuery, useGetArticleCategoryQuery, useCreateFavoriteArticleMutation,
+  useGetUsersQuery, useGetArticlesQuery, useGetCoursesQuery, useGetLessonsQuery, useGetLessonItemQuery, useGetMaterialsQuery, useGetArticleCategoryQuery, useCreateFavoriteArticleMutation,
+  useGetHomeworksQuery, useGetHomeworkItemQuery,
 } = usersApi;

@@ -15,7 +15,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   IoMenuSharp, IoHomeSharp, IoLogoJavascript, IoLogoReact, IoNewspaperSharp,
 } from 'react-icons/io5';
@@ -94,6 +94,9 @@ function Header(props) {
   const [open, setOpen] = React.useState(true);
   const [openMobile, setOpenMobile] = React.useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
+  const userId = pathParts[2];
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -153,7 +156,7 @@ function Header(props) {
               </ListItemIcon>
               <ListItemText sx={{ opacity: open || openMobile ? 1 : 0 }}>
                 <Link
-                  to="/"
+                  to={`/users/${userId}/dashboard`}
                   style={{
                     textDecoration: 'none',
                     color: 'inherit',
@@ -173,7 +176,7 @@ function Header(props) {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="JS Course" icon={<IoLogoJavascript fontSize={20} />} lessonPath="/courses/java-script/lessons" homeworkPath="/courses/java-script/homeworks" />
+              <AccordionHeader name="JS Course" icon={<IoLogoJavascript fontSize={20} />} lessonPath={`/users/${userId}/courses/java-script/lessons`} homeworkPath={`/users/${userId}/courses/java-script/homeworks`} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
@@ -184,7 +187,7 @@ function Header(props) {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="React Course" icon={<IoLogoReact fontSize={20} />} lessonPath="/courses/react/lessons" homeworkPath="/courses/react/homeworks" />
+              <AccordionHeader name="React Course" icon={<IoLogoReact fontSize={20} />} lessonPath={`/users/${userId}/courses/react/lessons`} homeworkPath={`/users/${userId}/courses/react/homeworks`} />
             </ListItemButton>
           </ListItem>
         </List>
@@ -210,7 +213,7 @@ function Header(props) {
                 </ListItemIcon>
                 <ListItemText sx={{ opacity: open || openMobile ? 1 : 0 }}>
                   <Link
-                    to="/technical-articles"
+                    to={`/users/${userId}/technical-articles`}
                     style={{
                       textDecoration: 'none',
                       color: 'inherit',

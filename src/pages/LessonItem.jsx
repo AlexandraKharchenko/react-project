@@ -72,6 +72,10 @@ function Materials({ courseId, lessonId }) {
 
 // eslint-disable-next-line react/prop-types
 function Homework({ courseId, lessonId }) {
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
+  const paramValue = pathParts[4];
+  const userId = pathParts[2];
   const { data: lessonsData, isLoading: lessonsIsLoading } = useGetHomeworksQuery({
     courseId,
     lessonId,
@@ -127,7 +131,7 @@ function Homework({ courseId, lessonId }) {
                       endIcon={<IoArrowForwardOutline />}
                     >
                       <Link
-                        to={`/courses/${courseId}/lessons/${lessonId}/homeworks/${item.id}`}
+                        to={`/users/${userId}/courses/${paramValue}/lessons/${lessonId}/homeworks/${item.id}`}
                         style={{ textDecoration: 'none', color: 'inherit' }}
                       >
                         To Homework
@@ -153,7 +157,7 @@ function LessonItem() {
   const { lessonId } = useParams();
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const paramValue = pathParts[2];
+  const paramValue = pathParts[4];
   const { data: coursesData, isLoading: coursesIsDataLoading } = useGetCoursesQuery();
   const courseName = !coursesIsDataLoading && coursesData.find((course) => course.name === paramValue);
   const { data: lessonsData, isLoading: lessonsIsLoading } = useGetLessonItemQuery({
