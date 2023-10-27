@@ -17,6 +17,8 @@ module.exports = {
     'react',
   ],
   rules: {
+    'react/prop-types': 0,
+    'react/forbid-prop-types': 0,
     'import/prefer-default-export': 'off',
     'react/no-unescaped-entities': 0,
     'react/react-in-jsx-scope': 'off',

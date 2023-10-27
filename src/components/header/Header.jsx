@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,13 +12,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { CircularProgress } from '@mui/material';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  IoMenuSharp, IoHomeSharp, IoLogoJavascript, IoLogoReact, IoNewspaperSharp,
+  IoMenuSharp, IoHomeSharp, IoLogoJavascript, IoLogoReact, IoNewspaperSharp, IoLogOutOutline,
 } from 'react-icons/io5';
 import AccordionHeader from './AccordionHeader';
+import { useGetUserQuery } from '../../store/api';
 
 const drawerWidth = 240;
 
@@ -88,6 +91,40 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
+function User(props) {
+  const { userId } = props;
+  const { data, isLoading } = useGetUserQuery(userId);
+  if (isLoading) {
+    return (
+      <CircularProgress />
+    );
+  }
+
+  return (
+    <Stack sx={{
+      flexDirection: 'row',
+      gap: '30px',
+    }}
+    >
+      <Typography variant="h6" noWrap component="div" sx={{ color: 'black' }}>
+        {data.name}
+      </Typography>
+      <Link
+        to="/"
+        style={{
+          textDecoration: 'none',
+          color: 'inherit',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+        }}
+      >
+        <IoLogOutOutline fontSize={25} style={{ color: 'black' }} />
+      </Link>
+    </Stack>
+  );
+}
 
 function Header(props) {
   const { children } = props;
@@ -128,9 +165,7 @@ function Header(props) {
           >
             <IoMenuSharp fontSize={25} />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" color="primary">
-            User
-          </Typography>
+          <User userId={userId} />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={screenWidth < 1024 ? openMobile : open}>

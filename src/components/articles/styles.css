@@ -1,0 +1,18 @@
+.category-link {
+    text-decoration: none;
+    color: #b66dff;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.category-link:hover {
+    text-decoration: underline;
+}
+
+.category-active-link {
+    text-decoration: none;
+    color:black;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

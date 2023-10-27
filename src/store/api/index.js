@@ -3,33 +3,50 @@ import { API_BASE_URL } from '../../utils/API_CONFIG';
 
 export const usersApi = createApi({
   reducerPath: 'usersApi',
-  tagTypes: ['Articles'],
+  tagTypes: ['User', 'Messages'],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (build) => ({
     getUsers: build.query({
       query: () => 'users/',
     }),
-    getArticles: build.query({
-      query: () => 'articles/',
+    getUser: build.query({
+      query: (userId) => `users/${userId}/`,
+      providesTags: () => ([{ type: 'User', id: 'USER' }]),
+    }),
+    createMessage: build.mutation({
+      query: ({ userId, comment, homeworkId }) => ({
+        url: `users/${userId}/message/`,
+        method: 'POST',
+        body: {
+          comment,
+          homeworkId,
+        },
+      }),
+      invalidatesTags: [{ type: 'Messages', id: 'MESSAGE' }],
+    }),
+    getMessages: build.query({
+      query: (userId) => `users/${userId}/message/`,
       providesTags: (result) => (result
         ? [
           ...result.map(({ id }) => ({ type: 'Posts', id })),
-          { type: 'Articles', id: 'ARTICLE' },
+          { type: 'Messages', id: 'MESSAGE' },
         ]
-        : [{ type: 'Articles', id: 'ARTICLE' }]),
+        : [{ type: 'Messages', id: 'MESSAGE' }]),
+    }),
+    getArticles: build.query({
+      query: () => 'articles/',
+
     }),
     getArticleCategory: build.query({
       query: () => 'categories/',
     }),
     createFavoriteArticle: build.mutation({
-      query: ({ id, favorite }) => ({
-        url: `articles/${id}/`,
+      query: ({ id, data }) => ({
+        url: `users/${id}/`,
         method: 'PUT',
-        body: {
-          isFavorite: favorite,
-        },
+        body: { favoriteArticles: data },
       }),
-      invalidatesTags: [{ type: 'Articles', id: 'ARTICLE' }],
+      invalidatesTags: [{ type: 'User', id: 'USER' }],
     }),
     getCourses: build.query({
       query: () => 'courses/',
@@ -53,6 +70,6 @@ export const usersApi = createApi({
 });
 
 export const {
-  useGetUsersQuery, useGetArticlesQuery, useGetCoursesQuery, useGetLessonsQuery, useGetLessonItemQuery, useGetMaterialsQuery, useGetArticleCategoryQuery, useCreateFavoriteArticleMutation,
+  useGetUsersQuery, useGetUserQuery, useGetMessagesQuery, useCreateMessageMutation, useGetArticlesQuery, useGetCoursesQuery, useGetLessonsQuery, useGetLessonItemQuery, useGetMaterialsQuery, useGetArticleCategoryQuery, useCreateFavoriteArticleMutation,
   useGetHomeworksQuery, useGetHomeworkItemQuery,
 } = usersApi;

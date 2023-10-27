@@ -1,0 +1,26 @@
+.status-is-being-checked {
+    justify-content: flex-end;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #188ae2;
+    padding: 5px;
+}
+
+.status-no-homework-done {
+    justify-content: flex-end;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #fe7c96;
+    padding: 5px;
+}
+
+.status-note {
+    justify-content: flex-end;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #1bcfb4;
+    padding: 5px;
+}

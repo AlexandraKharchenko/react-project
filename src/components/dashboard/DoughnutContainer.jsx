@@ -6,23 +6,37 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { COLORS } from '../colors';
-import { useGetUsersQuery } from '../../store/api';
+import { useLocation } from 'react-router-dom';
+import { COLORS } from '../COLORS';
+import { useGetUserQuery } from '../../store/api';
 
 function DoughnutContainer() {
-  const { data, isLoading } = useGetUsersQuery();
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
+  const userId = pathParts[2];
+  const { data, isLoading } = useGetUserQuery(userId);
+
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   let countTo50 = 0;
   let countFrom51To75 = 0;
   let countFrom76To100 = 0;
 
+  if (isLoading) {
+    return (
+      <LoadingButton
+        size="large"
+        loading
+      />
+    );
+  }
+  const notes = Object.values(data.homeworks);
+
   if (!isLoading) {
-    data.map((item) => {
-      const { grade } = item;
-      if (grade <= 50) countTo50 += 1;
-      else if (grade >= 51 && grade <= 75) countFrom51To75 += 1;
-      else if (grade >= 76 && grade <= 100) countFrom76To100 += 1;
+    notes.map((item) => {
+      if (item <= 50 && item > 0) countTo50 += 1;
+      else if (item >= 51 && item <= 75 && item > 0) countFrom51To75 += 1;
+      else if (item >= 76 && item <= 100 && item > 0) countFrom76To100 += 1;
       return null;
     });
   }
@@ -41,21 +55,13 @@ function DoughnutContainer() {
           'rgba(255, 99, 132, 1)',
           'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
-
         ],
         borderWidth: 1,
       },
     ],
   };
 
-  if (isLoading) {
-    return (
-      <LoadingButton
-        size="large"
-        loading
-      />
-    );
-  } return (
+  return (
     <Box
       sx={{
         width: '100%',
