@@ -32,9 +32,24 @@ export const usersApi = createApi({
       }),
       invalidatesTags: [{ type: 'Articles', id: 'ARTICLE' }],
     }),
+    getCourses: build.query({
+      query: () => 'courses/',
+    }),
+    getLessons: build.query({
+      query: (courseId) => `courses/${courseId}/lessons/`,
+    }),
+    getLessonItem: build.query({
+      query: ({ courseId, lessonId }) => `courses/${courseId}/lessons/${lessonId}`,
+    }),
+    getMaterials: build.query({
+      query: ({ courseId, lessonId }) => `courses/${courseId}/lessons/${lessonId}/additional-material`,
+    }),
+    getHomeworks: build.query({
+      query: ({ courseId, lessonId }) => `courses/${courseId}/lessons/${lessonId}/homeworks`,
+    }),
   }),
 });
 
 export const {
-  useGetUsersQuery, useGetArticlesQuery, useGetArticleCategoryQuery, useCreateFavoriteArticleMutation,
+  useGetUsersQuery, useGetArticlesQuery, useGetCoursesQuery, useGetLessonsQuery, useGetLessonItemQuery, useGetMaterialsQuery, useGetHomeworksQuery, useGetArticleCategoryQuery, useCreateFavoriteArticleMutation,
 } = usersApi;

@@ -3,7 +3,6 @@ import { useParams } from 'react-router';
 import { Button, CircularProgress } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { IoBookmarksOutline } from 'react-icons/io5';
-import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Header from '../components/header/Header';
 import { COLORS } from '../components/colors';

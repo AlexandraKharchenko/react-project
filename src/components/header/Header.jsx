@@ -94,6 +94,7 @@ function Header(props) {
   const [open, setOpen] = React.useState(true);
   const [openMobile, setOpenMobile] = React.useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
   const handleDrawerOpen = () => {
     setOpen(!open);
     setOpenMobile(!openMobile);
@@ -172,7 +173,7 @@ function Header(props) {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="JS Course" icon={<IoLogoJavascript fontSize={20} />} lessonPath="/lessons-js" homeworkPath="/homework-js" />
+              <AccordionHeader name="JS Course" icon={<IoLogoJavascript fontSize={20} />} lessonPath="/courses/java-script/lessons" homeworkPath="/courses/java-script/homeworks" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
@@ -183,7 +184,7 @@ function Header(props) {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="React Course" icon={<IoLogoReact fontSize={20} />} lessonPath="/lessons-react" homeworkPath="/homework-react" />
+              <AccordionHeader name="React Course" icon={<IoLogoReact fontSize={20} />} lessonPath="/courses/react/lessons" homeworkPath="/courses/react/homeworks" />
             </ListItemButton>
           </ListItem>
         </List>
