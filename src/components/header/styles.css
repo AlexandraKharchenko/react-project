@@ -1,0 +1,23 @@
+.header-user-link {
+    text-decoration: none;
+    color: inherit;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.header-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.link-accordion-icon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+}

@@ -65,7 +65,6 @@ function BarChart() {
       },
     ],
   };
-
   return (
     <Box
       sx={{

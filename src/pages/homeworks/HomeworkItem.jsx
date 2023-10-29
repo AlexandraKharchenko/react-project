@@ -17,7 +17,6 @@ import {
 } from '../../store/api';
 import { COLORS } from '../../components/COLORS';
 import DefaultTemplate from '../../templates/DefaultTemplate';
-import './styles.css';
 
 const RootDiv = styled('div')`
   display: flex;
@@ -64,9 +63,10 @@ const Input = forwardRef((props, ref) => (
   />
 ));
 function Messages({ userId, homeworkId }) {
-  const { data, isLoading } = useGetMessagesQuery(userId);
+  const { currentData, isFetching } = useGetMessagesQuery(userId);
   const [createMessage] = useCreateMessageMutation();
   const [inputValue, setInputValue] = useState('');
+  const comments = !isFetching && currentData.filter((item) => item.homeworkId === homeworkId);
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -74,14 +74,12 @@ function Messages({ userId, homeworkId }) {
     await createMessage({ userId, comment: value, homeworkId }).unwrap();
     setInputValue('');
   };
-  if (isLoading) {
+
+  if (isFetching) {
     return (
       <CircularProgress />
     );
-  }
-  const comments = data.filter((item) => item.homeworkId === homeworkId);
-
-  return (
+  } return (
     <>
       {!!comments.length && (
         <Stack spacing={1}>

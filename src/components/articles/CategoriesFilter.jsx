@@ -10,7 +10,7 @@ import { useGetArticleCategoryQuery } from '../../store/api';
 
 function CategoriesFilter() {
   const { category } = useParams();
-  const { data: categoryData, isLoading: categoryIsLoading } = useGetArticleCategoryQuery();
+  const { currentData, isFetching } = useGetArticleCategoryQuery();
   const location = useLocation();
   const pathParts = location.pathname.split('/');
   const userId = pathParts[2];
@@ -29,13 +29,12 @@ function CategoriesFilter() {
       >
         Categories
       </Typography>
-      {categoryData && categoryData.map((item) => {
-        if (categoryIsLoading) {
+      {currentData && currentData.map((item) => {
+        if (isFetching) {
           return (
             <CircularProgress />
           );
-        }
-        return (
+        } return (
           <Link
             to={`/users/${userId}/technical-articles/${item.name}`}
             key={item.id}

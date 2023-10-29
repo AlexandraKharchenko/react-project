@@ -91,8 +91,7 @@ function Homework({ courseId, lessonId, windowWidth }) {
     return (
       <CircularProgress />
     );
-  }
-  if (lessonsData.length) {
+  } if (lessonsData.length) {
     return (
       <Grid
         item
@@ -276,37 +275,22 @@ function LessonItem() {
             gap: '15px',
           }}
         >
+          {!!currentData.src && (
+
           <Box sx={{ display: 'flex', justifyContent: 'center' }} className="iframe-box">
             <iframe
               className="iframe-video"
               loading="lazy"
-              src="https://www.youtube.com/embed/dN8MQpcW_P4?si=pO5mgBVoiid6NCRu"
+              src={currentData.src}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
           </Box>
+          )}
           <Typography align="center" variant="body1">
             {currentData.description}
           </Typography>
-          {/* <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/ywUo0ZQpIrg?si=xg5OlqFmDkkS3t-S"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/pxn0wL_uSm4?si=aoXO0lLjPaceE9rB"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            /> */}
         </Grid>
         <Materials courseId={courseNameId} lessonId={lessonId} />
         <Homework courseId={courseNameId} lessonId={lessonId} windowWidth={windowWidth} />

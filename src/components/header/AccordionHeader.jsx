@@ -40,33 +40,18 @@ function AccordionHeader(props) {
           <Stack direction="column" spacing={2}>
             <Link
               to={lessonPath}
-              style={{
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                gap: '10px',
-                textDecoration: 'none',
-                color: 'inherit',
-              }}
+              className="link-accordion-icon"
             >
               <IoArrowForwardOutline fontSize={15} />
               Lessons
             </Link>
             <Link
               to={homeworkPath}
-              style={{
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                gap: '10px',
-                textDecoration: 'none',
-                color: 'inherit',
-              }}
+              className="link-accordion-icon"
             >
               <IoArrowForwardOutline fontSize={15} />
               Homework
             </Link>
-
           </Stack>
         </AccordionDetails>
       </Accordion>

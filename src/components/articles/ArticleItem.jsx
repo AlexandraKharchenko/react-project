@@ -70,7 +70,6 @@ function ArticleItem(props) {
           );
         })}
       </Stack>
-
       <Typography
         variant="subtitle1"
         gutterBottom

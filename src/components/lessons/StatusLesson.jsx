@@ -5,25 +5,25 @@ import PropTypes from 'prop-types';
 import { COLORS } from '../COLORS';
 import { useGetHomeworksQuery, useGetUserQuery } from '../../store/api';
 
-function StatusLesson({ courseId, lessonId, userId }) {
-  const { data, isLoading } = useGetHomeworksQuery({ courseId, lessonId });
-  const { data: userData, isLoading: isUserLoading } = useGetUserQuery(userId);
-  if (isLoading || isUserLoading) {
-    return (
-      <CircularProgress />
-    );
-  }
-  const userHomeworks = Object.keys(userData.homeworks);
-  const homeworksProLesson = data.reduce((acc, curr) => {
+function StatusLesson(props) {
+  const { courseId, lessonId, userId } = props;
+  const { currentData, isFetching } = useGetHomeworksQuery({ courseId, lessonId });
+  const { currentData: userData, isFetching: isUserLoading } = useGetUserQuery(userId);
+  const userHomeworks = userData && Object.keys(userData.homeworks);
+  const homeworksProLesson = !isFetching && currentData.reduce((acc, curr) => {
     if (userHomeworks.includes(curr.id)) {
       return acc + 1;
     }
     return acc;
   }, 0);
 
-  const amountHomeworksDone = `${homeworksProLesson} out of ${data.length} homeworks done`;
+  if (isFetching || isUserLoading) {
+    return (
+      <CircularProgress />
+    );
+  } const amountHomeworksDone = `${homeworksProLesson} out of ${currentData.length} homeworks done`;
 
-  if (data.length === 0) {
+  if (currentData.length === 0) {
     return (
       <Stack
         className="status-no-homeworks"
@@ -38,7 +38,7 @@ function StatusLesson({ courseId, lessonId, userId }) {
         </Typography>
       </Stack>
     );
-  } if (data.length === homeworksProLesson) {
+  } if (currentData.length === homeworksProLesson) {
     return (
       <Stack
         className="status-all-homeworks-done"

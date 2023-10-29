@@ -23,6 +23,8 @@ import {
 } from 'react-icons/io5';
 import AccordionHeader from './AccordionHeader';
 import { useGetUserQuery } from '../../store/api';
+import './styles.css';
+import { COLORS } from '../COLORS';
 
 const drawerWidth = 240;
 
@@ -93,32 +95,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 function User(props) {
   const { userId } = props;
-  const { data, isLoading } = useGetUserQuery(userId);
-  if (isLoading) {
+  const { currentData, isFetching } = useGetUserQuery(userId);
+  if (isFetching) {
     return (
       <CircularProgress />
     );
-  }
-
-  return (
+  } return (
     <Stack sx={{
       flexDirection: 'row',
       gap: '30px',
     }}
     >
       <Typography variant="h6" noWrap component="div" sx={{ color: 'black' }}>
-        {data.name}
+        {currentData.name}
       </Typography>
       <Link
         to="/"
-        style={{
-          textDecoration: 'none',
-          color: 'inherit',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          display: 'flex',
-        }}
+        className="header-user-link"
       >
         <IoLogOutOutline fontSize={25} style={{ color: 'black' }} />
       </Link>
@@ -151,7 +144,7 @@ function Header(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={screenWidth < 1024 ? openMobile : open} sx={{ backgroundColor: 'white' }}>
+      <AppBar position="fixed" open={screenWidth < 1024 ? openMobile : open} sx={{ backgroundColor: COLORS.white }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <IconButton
             color="primary"
@@ -192,11 +185,7 @@ function Header(props) {
               <ListItemText sx={{ opacity: open || openMobile ? 1 : 0 }}>
                 <Link
                   to={`/users/${userId}/dashboard`}
-                  style={{
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    display: 'block',
-                  }}
+                  className="header-link"
                 >
                   Dashboard
                 </Link>
@@ -249,11 +238,7 @@ function Header(props) {
                 <ListItemText sx={{ opacity: open || openMobile ? 1 : 0 }}>
                   <Link
                     to={`/users/${userId}/technical-articles`}
-                    style={{
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      display: 'block',
-                    }}
+                    className="header-link"
                   >
                     {text}
                   </Link>

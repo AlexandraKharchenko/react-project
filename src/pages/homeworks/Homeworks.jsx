@@ -12,13 +12,13 @@ import {
 import DefaultTemplate from '../../templates/DefaultTemplate';
 import Card from '../../components/Card';
 
-function LessonHomeworks({
-  courseId, lessonId, status,
-}) {
+function LessonHomeworks(props) {
+  const {
+    courseId, lessonId, status,
+  } = props;
   const { data: homeworksData, isLoading } = useGetHomeworksQuery({ courseId, lessonId });
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const paramValue = pathParts[4];
   const userId = pathParts[2];
   const { data: userData, isLoading: isUserLoading } = useGetUserQuery(userId);
   let filteredAr = [];
@@ -27,7 +27,8 @@ function LessonHomeworks({
     return (
       <CircularProgress />
     );
-  } if (homeworksData.length) {
+  }
+  if (homeworksData.length) {
     if (status.beingChecked && status.notDone && status.note) {
       filteredAr = homeworksData;
     } else if (status.note && status.beingChecked) {
@@ -42,25 +43,39 @@ function LessonHomeworks({
       filteredAr = homeworksData.filter((item) => item.id in userData.homeworks && userData.homeworks[item.id] < 0);
     } else if (status.notDone) {
       filteredAr = homeworksData.filter((item) => !(item.id in userData.homeworks));
-    } else { filteredAr = homeworksData; }
+    } else {
+      filteredAr = homeworksData;
+    }
 
     return (
       <>
         {filteredAr.map((homework) => {
           const date = new Date(homework.deadline);
-
           return (
-            <Card key={homework.id} lessonId={lessonId} description={homework.description} date={date} paramValue={paramValue} userId={userId} title={homework.title} courseNameId={courseId} homeworkPage homeworkId={homework.id} />
+            <Card
+              key={homework.id}
+              lessonId={lessonId}
+              description={homework.description}
+              date={date}
+              userId={userId}
+              title={homework.title}
+              courseNameId={courseId}
+              homeworkPage
+              homeworkId={homework.id}
+            />
           );
         })}
       </>
     );
-  } return null;
+  }
+  return null;
 }
+
 LessonHomeworks.propTypes = {
   lessonId: PropTypes.string.isRequired,
   courseId: PropTypes.string.isRequired,
 };
+
 function Homeworks() {
   const location = useLocation();
   const pathParts = location.pathname.split('/');
@@ -87,7 +102,8 @@ function Homeworks() {
     return (
       <CircularProgress />
     );
-  } return (
+  }
+  return (
     <DefaultTemplate>
       <Grid
         item
@@ -106,7 +122,7 @@ function Homeworks() {
               checked={status.note}
               onChange={handleNoteStatus}
             />
-              )}
+                    )}
           label="Done"
         />
         <FormControlLabel
@@ -122,7 +138,7 @@ function Homeworks() {
                 },
               }}
             />
-              )}
+                    )}
           label="Is being checked"
         />
         <FormControlLabel
@@ -138,12 +154,18 @@ function Homeworks() {
                 },
               }}
             />
-              )}
+                    )}
           label="Not done"
         />
       </Grid>
       {currentData.map((lesson) => (
-        <LessonHomeworks key={lesson.id} courseId={courseId} lessonId={lesson.id} status={status} lessonsIsDataLoading={isFetching} />
+        <LessonHomeworks
+          key={lesson.id}
+          courseId={courseId}
+          lessonId={lesson.id}
+          status={status}
+          lessonsIsDataLoading={isFetching}
+        />
       ))}
     </DefaultTemplate>
   );

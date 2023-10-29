@@ -22,17 +22,8 @@ function DoughnutContainer() {
   let countFrom51To75 = 0;
   let countFrom76To100 = 0;
 
-  if (isLoading) {
-    return (
-      <LoadingButton
-        size="large"
-        loading
-      />
-    );
-  }
-  const notes = Object.values(data.homeworks);
-
   if (!isLoading) {
+    const notes = Object.values(data.homeworks);
     notes.map((item) => {
       if (item <= 50 && item > 0) countTo50 += 1;
       else if (item >= 51 && item <= 75 && item > 0) countFrom51To75 += 1;
@@ -61,7 +52,14 @@ function DoughnutContainer() {
     ],
   };
 
-  return (
+  if (isLoading) {
+    return (
+      <LoadingButton
+        size="large"
+        loading
+      />
+    );
+  } return (
     <Box
       sx={{
         width: '100%',

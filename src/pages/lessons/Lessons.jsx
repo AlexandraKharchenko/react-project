@@ -10,13 +10,13 @@ import Card from '../../components/Card';
 function Lessons() {
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const courseNameId = pathParts[4];
+  const courseId = pathParts[4];
   const userId = pathParts[2];
 
   const {
     currentData: lessonsData,
     isFetching,
-  } = useGetLessonsQuery(courseNameId);
+  } = useGetLessonsQuery(courseId);
 
   if (isFetching) {
     return (
@@ -28,7 +28,7 @@ function Lessons() {
       {lessonsData.map((lesson) => {
         const date = new Date(lesson.created);
         return (
-          <Card key={lesson.id} lessonId={lesson.id} description={lesson.description} date={date} userId={userId} title={lesson.title} courseNameId={courseNameId} />
+          <Card key={lesson.id} lessonId={lesson.id} description={lesson.description} date={date} userId={userId} title={lesson.title} courseNameId={courseId} />
         );
       })}
     </DefaultTemplate>
