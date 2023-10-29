@@ -1,0 +1,20 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+    gap: 30px;
+}
+.field {
+    padding: 10px 20px;
+    width: 100%;
+    border:1px solid rgba(153, 102, 255, 0.5);
+}
+
+.MuiFormLabel-root{
+    text-align: center;
+}
+
+.MuiFormGroup-root {
+    gap: 10px;
+}
