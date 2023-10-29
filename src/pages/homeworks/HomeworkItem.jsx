@@ -11,7 +11,6 @@ import { styled } from '@mui/system';
 import { Input as BaseInput } from '@mui/base/Input';
 import { forwardRef, useState } from 'react';
 import {
-  useGetCoursesQuery,
   useGetHomeworkItemQuery,
   useGetUsersQuery,
   useGetMessagesQuery, useCreateMessageMutation,
@@ -116,15 +115,15 @@ Messages.propTypes = {
 };
 
 function UsersHomework({ userId }) {
-  const { data, isLoading } = useGetUsersQuery();
+  const { currentData, isFetching } = useGetUsersQuery();
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <CircularProgress />
     );
   }
-  const usersPassed = data.filter((user) => user.homeworks[userId]);
-  const usersNotPassed = data.filter((user) => !user.homeworks[userId]);
+  const usersPassed = currentData.filter((user) => user.homeworks[userId]);
+  const usersNotPassed = currentData.filter((user) => !user.homeworks[userId]);
 
   return (
     <Grid
@@ -179,20 +178,17 @@ UsersHomework.propTypes = {
 };
 function HomeworkItem() {
   const { course, lesson, homework } = useParams();
-  const { data: coursesData, isLoading: coursesIsDataLoading } = useGetCoursesQuery();
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const paramValue = pathParts[4];
+  const courseNameId = pathParts[4];
   const userId = pathParts[2];
-  const courseName = !coursesIsDataLoading && coursesData.find((item) => item.name === paramValue);
-  const { data, isLoading } = useGetHomeworkItemQuery({ courseId: courseName.id, lessonId: lesson, homeworkId: homework });
+  const { currentData, isFetching } = useGetHomeworkItemQuery({ courseId: courseNameId, lessonId: lesson, homeworkId: homework });
 
-  if (isLoading || coursesIsDataLoading) {
+  if (isFetching) {
     return (
       <CircularProgress />
     );
   }
-  console.log(data);
 
   return (
     <DefaultTemplate>
@@ -211,10 +207,10 @@ function HomeworkItem() {
         >
           Homework #
           {' '}
-          {data.id}
+          {currentData.id}
           -
           {' '}
-          {data.title}
+          {currentData.title}
         </Typography>
       </Grid>
       <Grid
@@ -229,7 +225,7 @@ function HomeworkItem() {
         }}
       >
         <Typography variant="body1" sx={{ marginBottom: '20px' }}>
-          {data.description}
+          {currentData.description}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Button variant="contained" color="secondary" endIcon={<IoArrowForwardOutline />}>

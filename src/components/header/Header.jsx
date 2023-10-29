@@ -211,7 +211,7 @@ function Header(props) {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="JS Course" icon={<IoLogoJavascript fontSize={20} />} lessonPath={`/users/${userId}/courses/java-script/lessons`} homeworkPath={`/users/${userId}/courses/java-script/homeworks`} />
+              <AccordionHeader name="JS Course" icon={<IoLogoJavascript fontSize={20} />} lessonPath={`/users/${userId}/courses/2/lessons`} homeworkPath={`/users/${userId}/courses/2/homeworks`} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
@@ -222,7 +222,7 @@ function Header(props) {
                 px: 2.5,
               }}
             >
-              <AccordionHeader name="React Course" icon={<IoLogoReact fontSize={20} />} lessonPath={`/users/${userId}/courses/react/lessons`} homeworkPath={`/users/${userId}/courses/react/homeworks`} />
+              <AccordionHeader name="React Course" icon={<IoLogoReact fontSize={20} />} lessonPath={`/users/${userId}/courses/1/lessons`} homeworkPath={`/users/${userId}/courses/1/homeworks`} />
             </ListItemButton>
           </ListItem>
         </List>

@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import Header from '../../components/header/Header';
 import { COLORS } from '../../components/COLORS';
 import {
-  useGetCoursesQuery, useGetLessonItemQuery, useGetHomeworksQuery, useGetUserQuery, useGetMaterialsQuery,
+  useGetLessonItemQuery, useGetHomeworksQuery, useGetUserQuery, useGetMaterialsQuery,
 } from '../../store/api';
 import './styles.css';
 
@@ -79,7 +79,7 @@ Materials.propTypes = {
 function Homework({ courseId, lessonId, windowWidth }) {
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const paramValue = pathParts[4];
+  const courseNameId = pathParts[4];
   const userId = pathParts[2];
   const { data: lessonsData, isLoading: lessonsIsLoading } = useGetHomeworksQuery({
     courseId,
@@ -180,7 +180,7 @@ function Homework({ courseId, lessonId, windowWidth }) {
                         endIcon={<IoArrowForwardOutline />}
                       >
                         <Link
-                          to={`/users/${userId}/courses/${paramValue}/lessons/${lessonId}/homeworks/${item.id}`}
+                          to={`/users/${userId}/courses/${courseNameId}/lessons/${lessonId}/homeworks/${item.id}`}
                           style={{ textDecoration: 'none', color: 'inherit' }}
                         >
                           {windowWidth < 1440 ? '' : 'To Homework'}
@@ -225,15 +225,13 @@ function LessonItem() {
   const { lessonId } = useParams();
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const paramValue = pathParts[4];
-  const { data: coursesData, isLoading: coursesIsDataLoading } = useGetCoursesQuery();
-  const courseName = !coursesIsDataLoading && coursesData.find((course) => course.name === paramValue);
-  const { data: lessonsData, isLoading: lessonsIsLoading } = useGetLessonItemQuery({
-    courseId: courseName?.id,
+  const courseNameId = pathParts[4];
+  const { currentData, isFetching } = useGetLessonItemQuery({
+    courseId: courseNameId,
     lessonId,
   });
 
-  if (coursesIsDataLoading || lessonsIsLoading) {
+  if (isFetching) {
     return (
       <CircularProgress />
     );
@@ -261,10 +259,10 @@ function LessonItem() {
             sx={{ fontWeight: 'bold' }}
           >
             Lesson #
-            {lessonsData.id}
+            {currentData.id}
             -
             {' '}
-            {lessonsData.title}
+            {currentData.title}
           </Typography>
         </Grid>
         <Grid
@@ -289,7 +287,7 @@ function LessonItem() {
             />
           </Box>
           <Typography align="center" variant="body1">
-            {lessonsData.description}
+            {currentData.description}
           </Typography>
           {/* <iframe
               width="560"
@@ -310,8 +308,8 @@ function LessonItem() {
               allowFullScreen
             /> */}
         </Grid>
-        <Materials courseId={courseName?.id} lessonId={lessonId} />
-        <Homework courseId={courseName?.id} lessonId={lessonId} windowWidth={windowWidth} />
+        <Materials courseId={courseNameId} lessonId={lessonId} />
+        <Homework courseId={courseNameId} lessonId={lessonId} windowWidth={windowWidth} />
       </Grid>
     </Header>
   );

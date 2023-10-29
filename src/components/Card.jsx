@@ -7,12 +7,12 @@ import { IoArrowForwardOutline } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 import './lessons/styles.css';
 import { COLORS } from './COLORS';
-import StatusLesson from './lessons/StatusLesson';
 import StatusHomework from './homeworks/StatusHomework';
+import StatusLesson from './lessons/StatusLesson';
 
 function Card(props) {
   const {
-    lessonId, courseNameId, userId, title, date, description, paramValue, homeworkPage, homeworkId,
+    lessonId, userId, title, date, description, homeworkPage, homeworkId, courseNameId,
   } = props;
   return (
     <Grid
@@ -76,14 +76,14 @@ function Card(props) {
         <Button variant="contained" color="secondary" endIcon={<IoArrowForwardOutline />}>
           {homeworkPage ? (
             <Link
-              to={`/users/${userId}/courses/${paramValue}/lessons/${lessonId}/homeworks/${homeworkId}`}
+              to={`/users/${userId}/courses/${courseNameId}/lessons/${lessonId}/homeworks/${homeworkId}`}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               To Homework
             </Link>
           ) : (
             <Link
-              to={`/users/${userId}/courses/${paramValue}/lessons/${lessonId}`}
+              to={`/users/${userId}/courses/${courseNameId}/lessons/${lessonId}`}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               To lesson
@@ -104,7 +104,6 @@ Card.propTypes = {
   title: PropTypes.string.isRequired,
   date: PropTypes.instanceOf(Date).isRequired,
   description: PropTypes.string.isRequired,
-  paramValue: PropTypes.string.isRequired,
 };
 
 Card.defaultProps = {

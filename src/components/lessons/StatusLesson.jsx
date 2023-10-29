@@ -8,7 +8,6 @@ import { useGetHomeworksQuery, useGetUserQuery } from '../../store/api';
 function StatusLesson({ courseId, lessonId, userId }) {
   const { data, isLoading } = useGetHomeworksQuery({ courseId, lessonId });
   const { data: userData, isLoading: isUserLoading } = useGetUserQuery(userId);
-
   if (isLoading || isUserLoading) {
     return (
       <CircularProgress />

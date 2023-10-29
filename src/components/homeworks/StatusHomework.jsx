@@ -9,15 +9,15 @@ import './styles.css';
 function StatusHomework({
   userId, homeworkId,
 }) {
-  const { data: userData, isLoading: isUserLoading } = useGetUserQuery(userId);
+  const { currentData, isFetching } = useGetUserQuery(userId);
 
-  if (isUserLoading) {
+  if (isFetching) {
     return (
       <CircularProgress />
     );
   }
 
-  if (userData.homeworks[homeworkId] > 0) {
+  if (currentData.homeworks[homeworkId] > 0) {
     return (
       <Stack
         className="status-note"
@@ -30,11 +30,11 @@ function StatusHomework({
         >
           Your note:
           {' '}
-          {userData.homeworks[homeworkId]}
+          {currentData.homeworks[homeworkId]}
         </Typography>
       </Stack>
     );
-  } if (userData.homeworks[homeworkId] < 0) {
+  } if (currentData.homeworks[homeworkId] < 0) {
     return (
       <Stack
         className="status-is-being-checked"

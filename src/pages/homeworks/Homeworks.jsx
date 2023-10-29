@@ -7,12 +7,14 @@ import Grid from '@mui/material/Grid';
 import { useState } from 'react';
 import { blue, red, teal } from '@mui/material/colors';
 import {
-  useGetCoursesQuery, useGetHomeworksQuery, useGetLessonsQuery, useGetUserQuery,
+  useGetHomeworksQuery, useGetLessonsQuery, useGetUserQuery,
 } from '../../store/api';
 import DefaultTemplate from '../../templates/DefaultTemplate';
 import Card from '../../components/Card';
 
-function LessonHomeworks({ courseId, lessonId, status }) {
+function LessonHomeworks({
+  courseId, lessonId, status,
+}) {
   const { data: homeworksData, isLoading } = useGetHomeworksQuery({ courseId, lessonId });
   const location = useLocation();
   const pathParts = location.pathname.split('/');
@@ -62,16 +64,15 @@ LessonHomeworks.propTypes = {
 function Homeworks() {
   const location = useLocation();
   const pathParts = location.pathname.split('/');
-  const paramValue = pathParts[4];
+  const courseId = pathParts[4];
 
-  const { data: coursesData, isLoading: coursesIsDataLoading } = useGetCoursesQuery();
-  const courseName = !coursesIsDataLoading && coursesData.find((course) => course.name === paramValue);
-  const { data: lessonsData, isLoading: lessonsIsDataLoading } = useGetLessonsQuery(courseName.id);
+  const { currentData, isFetching } = useGetLessonsQuery(courseId);
   const [status, setStatus] = useState({
     note: false,
     beingChecked: false,
     notDone: false,
   });
+
   const handleNoteStatus = () => {
     setStatus((curState) => ({ ...curState, note: !curState.note }));
   };
@@ -82,7 +83,7 @@ function Homeworks() {
     setStatus((curState) => ({ ...curState, notDone: !curState.notDone }));
   };
 
-  if (coursesIsDataLoading || lessonsIsDataLoading) {
+  if (isFetching) {
     return (
       <CircularProgress />
     );
@@ -141,8 +142,8 @@ function Homeworks() {
           label="Not done"
         />
       </Grid>
-      {lessonsData.map((lesson) => (
-        <LessonHomeworks key={lesson.id} courseId={courseName.id} lessonId={lesson.id} status={status} />
+      {currentData.map((lesson) => (
+        <LessonHomeworks key={lesson.id} courseId={courseId} lessonId={lesson.id} status={status} lessonsIsDataLoading={isFetching} />
       ))}
     </DefaultTemplate>
   );
